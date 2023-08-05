@@ -24,9 +24,9 @@ const store = configureStore({
   },
 });
 
-// this 2 line for typescript
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+<span style="color:red">export type RootState = ReturnType<typeof store.getState>;</span>
+<span style="color:red">export type AppDispatch = typeof store.dispatch;</span>
+
 
 export default store;
 
