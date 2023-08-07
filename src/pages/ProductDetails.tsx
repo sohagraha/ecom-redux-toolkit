@@ -1,5 +1,6 @@
 import ProductReview from '@/components/ProductReview';
 import { Button } from '@/components/ui/button';
+import { useSingleProductQuery } from '@/redux/api/apiSlice';
 import { IProduct } from '@/types/globalTypes';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -14,6 +15,8 @@ export default function ProductDetails() {
       .then((res) => res.json())
       .then((data) => setData(data));
   }, []);
+
+  // const {data, isLoading,error} = useSingleProductQuery(id);
 
   const product = data?.find((item) => item._id === Number(id));
 
