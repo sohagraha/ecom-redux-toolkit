@@ -58,11 +58,14 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 **_ Create Redux hooks in src/redux/hooks.ts_**
 
 ```
-import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import type { TypedUseSelectorHook } from 'react-redux';
 import type { RootState, AppDispatch } from './store';
 
-export const useAppDispatch = () => useDispatch<AppDispatch>();
+// Use throughout your app instead of plain `useDispatch` and `useSelector`
+export const useAppDispatch: () => AppDispatch = useDispatch;
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+
 
 ```
 
@@ -134,18 +137,13 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    addProduct: (state, action) => {
+    addTocart(state, action:PayloadAction<IProduct>) {
       state.products.push(action.payload);
-    },
-    removeProduct: (state, action) => {
-      state.products = state.products.filter(
-        (product) => product.id !== action.payload.id
-      );
     },
   },
 });
 
-export const { addProduct, removeProduct } = cartSlice.actions; // export actions for dispatch
+export const { addTocart } = cartSlice.actions; // export actions for dispatch
 
 export default cartSlice.reducer; // use in store.ts
 
@@ -156,39 +154,24 @@ export default cartSlice.reducer; // use in store.ts
 ```
 import React from 'react';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { addProduct, removeProduct } from '@/redux/features/cartSlice';
+import { addTocart } from '@/redux/features/cartSlice';
 
 const Product = () => {
   const dispatch = useAppDispatch();
   const products = useAppSelector((state) => state.cart.products);
 
-  const handleAddProduct = () => {
-    dispatch(
-      addProduct({
-        id: 1,
-        name: 'Product 1',
-        price: 100,
-      })
-    );
-  };
-
-  const handleRemoveProduct = () => {
-    dispatch(
-      removeProduct({
-        id: 1,
-        name: 'Product 1',
-        price: 100,
-      })
-    );
+  const handleAddProduct = (product) => {
+    dispatch(addTocart(product));
   };
 
   return (
     <div>
-      <button onClick={handleAddProduct}>Add Product</button>
-      <button onClick={handleRemoveProduct}>Remove Product</button>
       <ul>
         {products.map((product) => (
-          <li key={product.id}>{product.name}</li>
+          <>
+            <li key={product.id}>{product.name}</li>
+            <button onClick={() => handleAddProduct(product)}>Add to cart</button>
+          </>
         ))}
       </ul>
     </div>
