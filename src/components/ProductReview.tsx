@@ -24,7 +24,7 @@ export default function ProductReview({ id }: IProps) {
 
   console.log(id);
 
-  // const {data, isLoading,error} = useGetCommentsQuery(id);
+  // const {data, isLoading,error} = useGetCommentsQuery(id, refetchOnMountOrArgChange: true, pollingInterval: 1000)
 
   const [postComment, options] = usePostCommentMutation();
 
