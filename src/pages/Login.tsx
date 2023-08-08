@@ -1,8 +1,8 @@
-import { cn } from '@/lib/utils';
+import { LoginForm } from '@/components/LoginForm';
 import { buttonVariants } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 import { Link } from 'react-router-dom';
 import logo from '../assets/images/technet-logo-white.png';
-import { LoginForm } from '@/components/LoginForm';
 
 export default function Login() {
   return (
@@ -26,7 +26,9 @@ export default function Login() {
             }}
           />
           <div className="relative z-20 flex items-center text-lg font-medium">
-            <img className="h-8" src={logo} alt="" />
+            <Link to="/">
+              <img className="h-8" src={logo} alt="" />
+            </Link>
           </div>
           <div className="relative z-20 mt-auto">
             <blockquote className="space-y-2"></blockquote>
